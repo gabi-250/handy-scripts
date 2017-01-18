@@ -1,6 +1,22 @@
 #!/bin/bash
 
-if [ $# -gt 1 ]; then
+dependencies=(acpi beep cvlc xset)
+required=()
+
+for i in ${dependencies[*]}
+do
+  if ! [ -x "$(command -v $i)" ]; then
+    required+=($i)
+  fi
+done
+
+if [ ${#required[*]} -ne 0 ]; then
+  echo "Please install the dependencies first: "
+  for i in ${required[*]}
+  do
+    echo $i
+  done
+elif [ $# -gt 1 ]; then
   echo "Illegal number of arguments"
 elif [ -f $1 ] || [ $# -eq 0 ]; then
   bat_level=`acpi -b | grep -o [0-9]*% | grep -o [0-9]*`
@@ -20,10 +36,8 @@ elif [ -f $1 ] || [ $# -eq 0 ]; then
       fi
       xset dpms force on
     fi
-    sleep 3
+    sleep 300
   done
 else
   echo "$1: No such file"
 fi
-
-
