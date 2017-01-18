@@ -23,7 +23,7 @@ elif [ -f $1 ] || [ $# -eq 0 ]; then
   bat_stat=`acpi -b | grep -o "Discharging\|Charging"`
   while true
   do
-    if [ $bat_level -le 100 -a "$bat_stat" == "Discharging" ]; then
+    if [ $bat_level -le 5 -a "$bat_stat" == "Discharging" ]; then
       xset dpms force off
       sleep 0.05
       if [ $# -eq 0 ]; then
