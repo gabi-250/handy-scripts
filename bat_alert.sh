@@ -1,5 +1,18 @@
 #!/bin/bash
 
+function finish {
+  exit
+}
+
+trap finish SIGHUP SIGINT SIGTERM SIGQUIT
+
+# making sure there won't be multiple instances running
+pids=$(pgrep `basename $0`)
+if [ $(echo $pids | wc -w) -gt 1 ]; then
+  echo "Cannot run more than once instance of bat_alert!"
+  finish
+fi
+
 dependencies=(acpi beep cvlc xset)
 required=()
 
