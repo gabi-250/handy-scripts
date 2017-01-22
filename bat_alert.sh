@@ -32,10 +32,10 @@ if [ ${#required[*]} -ne 0 ]; then
 elif [ $# -gt 1 ]; then
   echo "Illegal number of arguments"
 elif [ -f $1 ] || [ $# -eq 0 ]; then
-  bat_level=`acpi -b | grep -Eo [0-9]+% | grep -Eo [0-9]+`
-  bat_stat=`acpi -b | grep -Eo Discharging\|Charging\|Unknown`
   while true
   do
+    bat_level=`acpi -b | grep -Eo [0-9]+% | grep -Eo [0-9]+`
+    bat_stat=`acpi -b | grep -Eo Discharging\|Charging\|Unknown`
     if [ "$bat_level" -le 5 ] && [ "$bat_stat" == "Discharging" ]; then
       xset dpms force off
       sleep 0.05
